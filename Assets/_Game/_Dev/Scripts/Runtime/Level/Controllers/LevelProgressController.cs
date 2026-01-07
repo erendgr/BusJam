@@ -1,5 +1,6 @@
 ﻿using System;
 using _Game._Dev.Scripts.Runtime.Core.Events;
+using _Game._Dev.Scripts.Runtime.Core.Movement;
 using _Game._Dev.Scripts.Runtime.Level.Models;
 using UnityEngine;
 using Zenject;
@@ -15,7 +16,7 @@ namespace _Game._Dev.Scripts.Runtime.Level.Controllers
         private int _currentLevelIndex;
         private const string SAVE_KEY = "CurrentLevelIndex";
 
-        public LevelProgressionManager(SignalBus signalBus, LevelProgressionSO levelProgression, IMovementTracker movementTracker)
+        public LevelProgressController(SignalBus signalBus, LevelProgressionSO levelProgression, IMovementTracker movementTracker)
         {
             _signalBus = signalBus;
             _levelProgression = levelProgression;
@@ -52,7 +53,6 @@ namespace _Game._Dev.Scripts.Runtime.Level.Controllers
 
         private async  void OnNextLevelRequested()
         {
-            //gereksiz zaten movement bitince next req atılıyor
             await _movementTracker.WaitForAllMovementsToComplete();
             LoadLevelByIndex(_currentLevelIndex);
         }
