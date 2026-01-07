@@ -1,4 +1,6 @@
-﻿namespace _Game._Dev.Scripts.Runtime.Core.Events
+﻿using _Game._Dev.Scripts.Runtime.Level.Models;
+
+namespace _Game._Dev.Scripts.Runtime.Core.Events
 {
     public struct RestartLevelRequestedSignal{ }
 
@@ -17,4 +19,14 @@
         public readonly float RemainingTime;
         public TimerUpdatedSignal(float remainingTime) => RemainingTime = remainingTime;
     }
+
+    public struct LevelCompletedSignal { }
+
+    public struct LevelLoadRequestedSignal
+    {
+        public readonly LevelSO LevelData;
+        public LevelLoadRequestedSignal(LevelSO levelData) => LevelData = levelData;
+    }
+    
+    public struct ResetGameplaySignal { }
 }
