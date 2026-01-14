@@ -1,4 +1,6 @@
 ﻿using _Game._Dev.Scripts.Runtime.Level.Models;
+using _Game._Dev.Scripts.Runtime.MVC.Bus.Controllers;
+using _Game._Dev.Scripts.Runtime.MVC.Passenger.Views;
 
 namespace _Game._Dev.Scripts.Runtime.Core.Events
 {
@@ -29,4 +31,44 @@ namespace _Game._Dev.Scripts.Runtime.Core.Events
     }
     
     public struct ResetGameplaySignal { }
+    
+    public struct CharacterClickedSignal
+    {
+        public readonly PassengerView ClickedPassenger;
+        public CharacterClickedSignal(PassengerView clickedPassenger) => ClickedPassenger = clickedPassenger;
+    }
+    
+    public struct BusFullSignal
+    {
+        public readonly IBusController FullBus;
+        public BusFullSignal(IBusController bus) => FullBus = bus;
+    }
+
+    public struct AllBusesDispatchedSignal { }
+
+    public struct BusArrivalSequenceStartedSignal 
+    {
+        public readonly IBusController ArrivingBus;
+        public BusArrivalSequenceStartedSignal(IBusController bus) => ArrivingBus = bus;
+    }
+
+    public struct BusArrivedSignal
+    {
+        public readonly IBusController ArrivedBus;
+        public BusArrivedSignal(IBusController bus) => ArrivedBus = bus;
+    }
+
+    public struct GameOverSignal { }
+
+    public struct TimeIsUpSignal { }
+
+    public struct PassengerEnteredWaitingAreaSignal
+    {
+        public readonly PassengerView Character;
+        public PassengerEnteredWaitingAreaSignal(PassengerView passenger) => Character = passenger;
+    }
+    
+    public struct WaitingAreaChangedSignal { }
+
+    public struct LevelCompleteSequenceFinishedSignal { }
 }
