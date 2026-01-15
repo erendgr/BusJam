@@ -1,15 +1,15 @@
 ﻿using System.Threading;
 using _Game._Dev.Scripts.Runtime.Core.Events;
+using _Game._Dev.Scripts.Runtime.Features.Passenger.Views;
 using _Game._Dev.Scripts.Runtime.Level.Models;
 using _Game._Dev.Scripts.Runtime.Misc;
 using _Game._Dev.Scripts.Runtime.MVC.Bus.Models;
 using _Game._Dev.Scripts.Runtime.MVC.Bus.Views;
-using _Game._Dev.Scripts.Runtime.MVC.Passenger.Views;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
-namespace _Game._Dev.Scripts.Runtime.MVC.Bus.Controllers
+namespace _Game._Dev.Scripts.Runtime.Features.Bus.Controllers
 {
     public class BusController : IBusController
     {
@@ -47,10 +47,10 @@ namespace _Game._Dev.Scripts.Runtime.MVC.Bus.Controllers
         
         public bool CanBoard(PassengerView passenger)
         {
-            return IsAcceptingPassengers && _busModel.HasSpace() && _busModel.IsColorMatch(passenger.Color);
+            return IsAcceptingPassengers && _busModel.HasSpace() && _busModel.IsColorMatch(passenger.PassengerColor);
         }
         
-        public async UniTask BoardCharacterAsync(PassengerView passenger)
+        public async UniTask BoardPassengerAsync(PassengerView passenger)
         {
             var slotIndex = _busModel.Passengers.Count;
             var slotTransform = View.GetSlotTransform(slotIndex);

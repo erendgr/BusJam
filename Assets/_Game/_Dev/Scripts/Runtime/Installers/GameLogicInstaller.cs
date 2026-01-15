@@ -2,10 +2,11 @@
 using _Game._Dev.Scripts.Runtime.Core.BusSystem;
 using _Game._Dev.Scripts.Runtime.Core.Grid;
 using _Game._Dev.Scripts.Runtime.Core.Movement;
+using _Game._Dev.Scripts.Runtime.Core.PassengerSystem;
 using _Game._Dev.Scripts.Runtime.Core.Pathfinding;
+using _Game._Dev.Scripts.Runtime.Features.Passenger.Controllers;
 using _Game._Dev.Scripts.Runtime.Level.Controllers;
 using _Game._Dev.Scripts.Runtime.Misc;
-using _Game._Dev.Scripts.Runtime.MVC.Passenger.Controllers;
 using UnityEngine;
 using Zenject;
 
@@ -23,6 +24,7 @@ namespace _Game._Dev.Scripts.Runtime.Installers
             Container.BindInterfacesAndSelfTo<CameraController>().AsSingle();
             Container.BindInterfacesAndSelfTo<GridSystemManager>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<BusSystemManager>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<PassengerSystemManager>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<WaitingAreaController>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<GameStateManager>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<LevelProgressController>().AsSingle().NonLazy();

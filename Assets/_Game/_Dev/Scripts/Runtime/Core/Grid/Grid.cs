@@ -17,13 +17,11 @@ namespace _Game._Dev.Scripts.Runtime.Core.Grid
 
         public Grid(int width, int height, Vector3 origin, GameObject tilePrefab, DiContainer container)
         {
-            Debug.Log(tilePrefab);
             _width = width;
             _height = height;
             _origin = origin;
             _gridObjects = new GameObject[width, height];
             _instantiatedTiles = new List<GameObject>();
-            Debug.Log(width + " -- " + height + " -- " + _gridObjects + " -- " + _instantiatedTiles);
 
             for (int x = 0; x < width; x++)
             {
@@ -33,7 +31,6 @@ namespace _Game._Dev.Scripts.Runtime.Core.Grid
                     
                     var worldPos = GetWorldPosition(new Vector2Int(x, y));
                     var tileInstance = container.InstantiatePrefab(tilePrefab, worldPos, Quaternion.identity, null);
-                    Debug.Log(tileInstance);
 
                     _instantiatedTiles.Add(tileInstance);
                 }

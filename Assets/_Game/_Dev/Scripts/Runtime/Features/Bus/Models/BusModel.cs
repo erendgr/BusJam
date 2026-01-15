@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using _Game._Dev.Scripts.Runtime.Features.Passenger.Views;
 using _Game._Dev.Scripts.Runtime.Level.Models;
-using _Game._Dev.Scripts.Runtime.MVC.Passenger.Views;
 
 namespace _Game._Dev.Scripts.Runtime.MVC.Bus.Models
 {

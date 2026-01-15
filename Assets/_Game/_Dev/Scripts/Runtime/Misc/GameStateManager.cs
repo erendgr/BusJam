@@ -4,7 +4,7 @@ using _Game._Dev.Scripts.Runtime.Core.BusSystem;
 using _Game._Dev.Scripts.Runtime.Core.Events;
 using _Game._Dev.Scripts.Runtime.Core.Grid;
 using _Game._Dev.Scripts.Runtime.Core.Movement;
-using _Game._Dev.Scripts.Runtime.MVC.Passenger.Views;
+using _Game._Dev.Scripts.Runtime.Features.Passenger.Views;
 using UnityEngine;
 using Zenject;
 
@@ -43,7 +43,7 @@ namespace _Game._Dev.Scripts.Runtime.Misc
             _signalBus.Subscribe<NextLevelRequestedSignal>(OnNewLevelSequenceRequested);
             _signalBus.Subscribe<BusArrivedSignal>(OnBusArrived);
             _signalBus.Subscribe<TimeIsUpSignal>(OnTimeIsUp);
-            _signalBus.Subscribe<PassengerEnteredWaitingAreaSignal>(OnCharacterEnteredWaitingArea);
+            _signalBus.Subscribe<PassengerEnteredWaitingAreaSignal>(OnPassengerEnteredWaitingArea);
         }
 
         public void Dispose()
@@ -53,11 +53,11 @@ namespace _Game._Dev.Scripts.Runtime.Misc
             _signalBus.TryUnsubscribe<NextLevelRequestedSignal>(OnNewLevelSequenceRequested);
             _signalBus.TryUnsubscribe<BusArrivedSignal>(OnBusArrived);
             _signalBus.TryUnsubscribe<TimeIsUpSignal>(OnTimeIsUp);
-            _signalBus.TryUnsubscribe<PassengerEnteredWaitingAreaSignal>(OnCharacterEnteredWaitingArea);
+            _signalBus.TryUnsubscribe<PassengerEnteredWaitingAreaSignal>(OnPassengerEnteredWaitingArea);
         }
         
         private void OnTimeIsUp() => ProcessGameOverState("Time is up!");
-        private void OnCharacterEnteredWaitingArea() => CheckForWaitingAreaDeadlock();
+        private void OnPassengerEnteredWaitingArea() => CheckForWaitingAreaDeadlock();
         private void OnBusArrived() => CheckForWaitingAreaDeadlock();
 
         private void OnAllBusesDispatched()
@@ -70,30 +70,30 @@ namespace _Game._Dev.Scripts.Runtime.Misc
         private void CheckWinCondition()
         {
             var allGridObjects = _gridSystemManager.MainGrid.GetAllOccupiedObjects();
-            var characterCountOnGrid = allGridObjects.Count(obj => obj.GetComponent<PassengerView>() != null);
-            var waitingAreaCount = _waitingAreaController.GetWaitingCharacterCount();
+            var passengerCountOnGrid = allGridObjects.Count(obj => obj.GetComponent<PassengerView>() != null);
+            var waitingAreaCount = _waitingAreaController.GetWaitingPassengersCount();
     
-            if (characterCountOnGrid == 0 && waitingAreaCount == 0)
+            if (passengerCountOnGrid == 0 && waitingAreaCount == 0)
             {
                 ProcessWinState();
             }
             else
             {
-                CheckForStuckCharacters();
+                CheckForStuckPassengers();
             }
         }
         
-        private void CheckForStuckCharacters()
+        private void CheckForStuckPassengers()
         {
             if (!_gameplayStateHolder.IsGameplayActive) return;
 
             var allGridObjects = _gridSystemManager.MainGrid.GetAllOccupiedObjects();
-            var characterCountOnGrid = allGridObjects.Count(obj => obj.GetComponent<PassengerView>() != null);
-            var waitingAreaCount = _waitingAreaController.GetWaitingCharacterCount();
+            var passengerCountOnGrid = allGridObjects.Count(obj => obj.GetComponent<PassengerView>() != null);
+            var waitingAreaCount = _waitingAreaController.GetWaitingPassengersCount();
 
-            if (characterCountOnGrid > 0 || waitingAreaCount > 0)
+            if (passengerCountOnGrid > 0 || waitingAreaCount > 0)
             {
-                ProcessGameOverState("Game ended with stuck characters.");
+                ProcessGameOverState("Game ended with stuck passengers.");
             }
         }
         
@@ -107,19 +107,19 @@ namespace _Game._Dev.Scripts.Runtime.Misc
             var currentBus = _busSystemManager.CurrentBus;
             if (currentBus == null)
             {
-                if (_waitingAreaController.GetWaitingCharacterCount() > 0)
+                if (_waitingAreaController.GetWaitingPassengersCount() > 0)
                 {
-                    ProcessGameOverState("No more buses available, but characters are waiting.");
+                    ProcessGameOverState("No more buses available, but passengers are waiting.");
                 }
                 return;
             }
 
             var busColor = currentBus.GetColor();
-            bool canAnyoneBoard = _waitingAreaController.GetWaitingCharacters().Any(c => c != null && c.Color == busColor);
+            bool canAnyoneBoard = _waitingAreaController.GetWaitingPassengers().Any(c => c != null && c.PassengerColor == busColor);
 
             if (!canAnyoneBoard)
             {
-                ProcessGameOverState($"Deadlock: No matching character for the {busColor} bus.");
+                ProcessGameOverState($"Deadlock: No matching passenger for the {busColor} bus.");
             }
         }
         

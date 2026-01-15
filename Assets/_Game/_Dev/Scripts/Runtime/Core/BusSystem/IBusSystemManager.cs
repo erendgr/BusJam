@@ -1,4 +1,4 @@
-﻿using _Game._Dev.Scripts.Runtime.MVC.Bus.Controllers;
+﻿using _Game._Dev.Scripts.Runtime.Features.Bus.Controllers;
 
 namespace _Game._Dev.Scripts.Runtime.Core.BusSystem
 {

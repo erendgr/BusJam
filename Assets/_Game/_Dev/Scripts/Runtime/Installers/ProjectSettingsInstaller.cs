@@ -20,7 +20,7 @@ namespace _Game._Dev.Scripts.Runtime.Installers
             Container.DeclareSignal<LevelCompletedSignal>();
             Container.DeclareSignal<LevelReadySignal>();
             Container.DeclareSignal<TimerUpdatedSignal>();
-            Container.DeclareSignal<CharacterClickedSignal>();
+            Container.DeclareSignal<PassengerClickedSignal>();
             Container.DeclareSignal<BusArrivedSignal>();
             Container.DeclareSignal<BusFullSignal>();
             Container.DeclareSignal<GameOverSignal>();

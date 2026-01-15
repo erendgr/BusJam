@@ -44,11 +44,11 @@ namespace _Game._Dev.Scripts.Runtime.Level.Controllers
                 mainGrid.PlaceObject(obstacleInstance, obstacleData.GridPosition);
             }
     
-            foreach (var characterData in levelData.Characters)
+            foreach (var passengerData in levelData.Passengers)
             {
-                var characterPosition = mainGrid.GetWorldPosition(characterData.GridPosition, 0.5f);
-                var characterView = _passengerFactory.Create(characterData.Color, characterPosition, characterData.GridPosition);
-                mainGrid.PlaceObject(characterView.gameObject, characterData.GridPosition);
+                var passengerPosition = mainGrid.GetWorldPosition(passengerData.GridPosition, 0.5f);
+                var passengerController = _passengerFactory.Create(passengerData.Color, passengerPosition, passengerData.GridPosition);
+                mainGrid.PlaceObject(passengerController.View.gameObject, passengerData.GridPosition);
             }
 
             Debug.Log("Level Loaded Successfully. Firing LevelReadySignal.");

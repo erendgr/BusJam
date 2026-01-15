@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using _Game._Dev.Scripts.Runtime.Core.BusSystem;
 using _Game._Dev.Scripts.Runtime.Core.Events;
-using _Game._Dev.Scripts.Runtime.MVC.Passenger.Views;
+using _Game._Dev.Scripts.Runtime.Features.Passenger.Models;
+using _Game._Dev.Scripts.Runtime.Features.Passenger.Views;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -33,7 +34,7 @@ namespace _Game._Dev.Scripts.Runtime.Core.Grid
         {
             _signalBus.Subscribe<BusArrivalSequenceStartedSignal>(OnBusArrivalSequenceStarted);
             _signalBus.Subscribe<BusArrivedSignal>(OnBusArrived);
-            _signalBus.Subscribe<PassengerEnteredWaitingAreaSignal>(OnCharacterEnteredArea);
+            _signalBus.Subscribe<PassengerEnteredWaitingAreaSignal>(OnPassengerEnteredArea);
             _signalBus.Subscribe<ResetGameplaySignal>(Reset);
         }
 
@@ -41,7 +42,7 @@ namespace _Game._Dev.Scripts.Runtime.Core.Grid
         {
             _signalBus.TryUnsubscribe<BusArrivalSequenceStartedSignal>(OnBusArrivalSequenceStarted);
             _signalBus.TryUnsubscribe<BusArrivedSignal>(OnBusArrived);
-            _signalBus.TryUnsubscribe<PassengerEnteredWaitingAreaSignal>(OnCharacterEnteredArea);
+            _signalBus.TryUnsubscribe<PassengerEnteredWaitingAreaSignal>(OnPassengerEnteredArea);
             _signalBus.TryUnsubscribe<ResetGameplaySignal>(Reset);
         }
 
@@ -50,9 +51,9 @@ namespace _Game._Dev.Scripts.Runtime.Core.Grid
             _isBoardingLocked = true;
         }
 
-        public bool IsCharacterInArea(PassengerView character)
+        public bool IsPassengerInArea(PassengerView passenger)
         {
-            return _slots.Contains(character);
+            return _slots.Contains(passenger);
         }
 
         public Vector2Int? ReserveNextAvailableSlot()
@@ -71,9 +72,9 @@ namespace _Game._Dev.Scripts.Runtime.Core.Grid
             return null;
         }
 
-        private void RemoveCharacterFromArea(PassengerView character)
+        private void RemovePassengerFromArea(PassengerView passenger)
         {
-            int index = Array.IndexOf(_slots, character);
+            int index = Array.IndexOf(_slots, passenger);
             if (index != -1)
             {
                 var gridPos = new Vector2Int(index, 0);
@@ -82,60 +83,60 @@ namespace _Game._Dev.Scripts.Runtime.Core.Grid
             }
         }
 
-        public async UniTask FinalizeMoveToSlot(PassengerView character, Vector2Int reservedSlot)
+        public async UniTask FinalizeMoveToSlot(PassengerView view, PassengerModel model, Vector2Int reservedSlot)
         {
             var waitingGrid = _gridSystemManager.WaitingAreaGrid;
             var targetPosition = waitingGrid.GetWorldPosition(reservedSlot, 0.5f);
 
-            await character.MoveToPoint(targetPosition);
+            await view.MoveToPoint(targetPosition);
 
             _reservedSlots.Remove(reservedSlot);
-            waitingGrid.PlaceObject(character.gameObject, reservedSlot);
-            _slots[reservedSlot.x] = character;
-            character.UpdateGridPosition(reservedSlot);
+            waitingGrid.PlaceObject(view.gameObject, reservedSlot);
+            _slots[reservedSlot.x] = view;
+            model.UpdateGridPosition(reservedSlot);
 
-            _signalBus.Fire(new PassengerEnteredWaitingAreaSignal(character));
+            _signalBus.Fire(new PassengerEnteredWaitingAreaSignal(view));
         }
 
         private async void OnBusArrived(BusArrivedSignal signal)
         {
             _isBoardingLocked = false;
 
-            var waitingCharacters = _slots.Where(c => c != null).ToList();
-            foreach (var character in waitingCharacters)
+            var waitingPassengers = _slots.Where(c => c != null).ToList();
+            foreach (var passenger in waitingPassengers)
             {
                 if (_busSystemManager.CurrentBus == null || !_busSystemManager.CurrentBus.HasSpace()) break;
-                await CheckAndBoardCharacter(character);
+                await CheckAndBoardPassenger(passenger);
             }
         }
 
-        private async void OnCharacterEnteredArea(PassengerEnteredWaitingAreaSignal signal)
+        private async void OnPassengerEnteredArea(PassengerEnteredWaitingAreaSignal signal)
         {
             if (!_isBoardingLocked)
             {
-                await CheckAndBoardCharacter(signal.Character);
+                await CheckAndBoardPassenger(signal.Passenger);
             }
         }
 
-        private async UniTask<bool> CheckAndBoardCharacter(PassengerView character)
+        private async UniTask<bool> CheckAndBoardPassenger(PassengerView passenger)
         {
             var currentBus = _busSystemManager.CurrentBus;
             if (currentBus == null) return false;
 
-            if (currentBus.CanBoard(character))
+            if (currentBus.CanBoard(passenger))
             {
-                RemoveCharacterFromArea(character);
-                await currentBus.BoardCharacterAsync(character);
-                Debug.Log($"{character.Color.ToString()} board");
+                RemovePassengerFromArea(passenger);
+                await currentBus.BoardPassengerAsync(passenger);
+                Debug.Log($"{passenger.PassengerColor.ToString()} board");
                 return true;
             }
 
             return false;
         }
 
-        public int GetWaitingCharacterCount()
+        public int GetWaitingPassengersCount()
         {
-            return _slots.Count(character => character != null);
+            return _slots.Count(passenger => passenger != null);
         }
 
         public void Reset()
@@ -148,14 +149,14 @@ namespace _Game._Dev.Scripts.Runtime.Core.Grid
             _reservedSlots.Clear();
         }
 
-        public IReadOnlyList<PassengerView> GetWaitingCharacters()
+        public IReadOnlyList<PassengerView> GetWaitingPassengers()
         {
             return _slots;
         }
 
         public bool IsFull()
         {
-            return GetWaitingCharacterCount() >= _slots.Length;
+            return GetWaitingPassengersCount() >= _slots.Length;
         }
     }
 }

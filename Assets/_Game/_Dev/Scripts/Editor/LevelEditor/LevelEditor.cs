@@ -131,9 +131,9 @@ namespace _Game._Dev.Scripts.Editor.LevelEditor
 
         private void PlaceCharacters()
         {
-            if (PrefabConfig.PassengerPrefab == null || LevelToEdit.Characters == null) return;
+            if (PrefabConfig.PassengerPrefab == null || LevelToEdit.Passengers == null) return;
             
-            foreach (var charData in LevelToEdit.Characters)
+            foreach (var charData in LevelToEdit.Passengers)
             {
                 var position = new Vector3(charData.GridPosition.x, 0.5f, charData.GridPosition.y);
                 var character = Instantiate(PrefabConfig.PassengerPrefab, position, Quaternion.identity, LevelHolder);

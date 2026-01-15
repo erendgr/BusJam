@@ -264,10 +264,10 @@ namespace _Game._Dev.Scripts.Editor.LevelEditor
             int maxX = 0;
             int maxY = 0;
 
-            if (level.Characters != null && level.Characters.Any())
+            if (level.Passengers != null && level.Passengers.Any())
             {
-                maxX = level.Characters.Max(c => c.GridPosition.x);
-                maxY = level.Characters.Max(c => c.GridPosition.y);
+                maxX = level.Passengers.Max(c => c.GridPosition.x);
+                maxY = level.Passengers.Max(c => c.GridPosition.y);
             }
 
             if (level.Obstacles != null && level.Obstacles.Any())
@@ -348,13 +348,13 @@ namespace _Game._Dev.Scripts.Editor.LevelEditor
             var level = editor.LevelToEdit;
 
             bool changed = false;
-            level.Characters.RemoveAll(c => c.GridPosition == gridPos);
+            level.Passengers.RemoveAll(c => c.GridPosition == gridPos);
             level.Obstacles.RemoveAll(o => o.GridPosition == gridPos);
 
             switch (_currentTool)
             {
                 case EditorTool.AddCharacter:
-                    level.Characters.Add(new CharacterPlacementData { Color = _selectedColor, GridPosition = gridPos });
+                    level.Passengers.Add(new PassengerPlacementData { Color = _selectedColor, GridPosition = gridPos });
                     changed = true;
                     break;
                 case EditorTool.AddObstacle:

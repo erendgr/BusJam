@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Game._Dev.Scripts.Runtime.Level.Models
 {
@@ -13,7 +14,7 @@ namespace _Game._Dev.Scripts.Runtime.Level.Models
     }
 
     [System.Serializable]
-    public struct CharacterPlacementData
+    public struct PassengerPlacementData
     {
         public Colors Color;
         public Vector2Int GridPosition;
@@ -34,8 +35,8 @@ namespace _Game._Dev.Scripts.Runtime.Level.Models
         [Header("Grid Settings")]
         public Vector2Int MainGridSize = new Vector2Int(5, 5);
 
-        [Header("Character Placements")]
-        public List<CharacterPlacementData> Characters;
+        [Header("Passenger Placements")]
+        public List<PassengerPlacementData> Passengers;
 
         [Header("Obstacle Placements")]
         public List<ObstaclePlacementData> Obstacles;
