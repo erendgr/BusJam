@@ -1,22 +1,21 @@
 ﻿using System.Collections.Generic;
 using _Game._Dev.Scripts.Runtime.Core.Events;
 using _Game._Dev.Scripts.Runtime.Core.Movement;
+using _Game._Dev.Scripts.Runtime.Features.Passenger.Models;
 using _Game._Dev.Scripts.Runtime.Level.Models;
 using _Game._Dev.Scripts.Runtime.Misc;
-using _Game._Dev.Scripts.Runtime.MVC.Passenger.Models;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;
 
-namespace _Game._Dev.Scripts.Runtime.MVC.Passenger.Views
+namespace _Game._Dev.Scripts.Runtime.Features.Passenger.Views
 {
     [RequireComponent(typeof(Collider))]
     public class PassengerView : MonoBehaviour
     {
-        public bool IsMoving { get; set; }
-        public Colors Color { get; private set; }
-        public Vector2Int GridPosition { get; private set; }
+        private bool _interactionEnabled;
+        public Colors PassengerColor { get; private set; }
         
         [Header("References")] 
         [SerializeField] private MeshRenderer meshRenderer;
@@ -39,17 +38,16 @@ namespace _Game._Dev.Scripts.Runtime.MVC.Passenger.Views
             _movementTracker = movementTracker;
         }
 
-        public void Initialize(Colors color, Vector2Int gridPosition)
+        public void Initialize(Colors color)
         {
-            Color = color;
-            GridPosition = gridPosition;
+            PassengerColor = color;
             SetVisualColor(color);
         }
 
         private void OnMouseDown()
         {
-            if(IsMoving) return;
-            _signalBus.Fire(new CharacterClickedSignal(this));
+            if(_interactionEnabled) return;
+            _signalBus.Fire(new PassengerClickedSignal(this));
         }
 
         private void SetVisualColor(Colors color)
@@ -81,11 +79,6 @@ namespace _Game._Dev.Scripts.Runtime.MVC.Passenger.Views
             }
         }
 
-        public void UpdateGridPosition(Vector2Int newPosition)
-        {
-            GridPosition = newPosition;
-        }
-
         public async UniTask MoveToPoint(Vector3 worldPosition)
         {
             _movementTracker.RegisterMovement();
@@ -99,6 +92,11 @@ namespace _Game._Dev.Scripts.Runtime.MVC.Passenger.Views
             {
                 _movementTracker.UnregisterMovement();
             }
+        }
+        
+        public void SetInteractionEnabled(bool isEnabled)
+        {
+            _interactionEnabled = isEnabled;
         }
     }
 }
