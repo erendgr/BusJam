@@ -1,4 +1,5 @@
 ﻿using _Game._Dev.Scripts.Runtime.Core;
+using _Game._Dev.Scripts.Runtime.Core.BoardingSystem;
 using _Game._Dev.Scripts.Runtime.Core.BusSystem;
 using _Game._Dev.Scripts.Runtime.Core.Grid;
 using _Game._Dev.Scripts.Runtime.Core.Movement;
@@ -25,6 +26,7 @@ namespace _Game._Dev.Scripts.Runtime.Installers
             Container.BindInterfacesAndSelfTo<GridSystemManager>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<BusSystemManager>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<PassengerSystemManager>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<BoardingSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<WaitingAreaController>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<GameStateManager>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<LevelProgressController>().AsSingle().NonLazy();
