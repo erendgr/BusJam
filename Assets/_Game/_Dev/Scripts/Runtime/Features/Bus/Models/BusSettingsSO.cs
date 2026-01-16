@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Game._Dev.Scripts.Runtime.MVC.Bus.Models
+namespace _Game._Dev.Scripts.Runtime.Features.Bus.Models
 {
     [CreateAssetMenu(fileName = "BusSettingsSO", menuName = "Bus Jam/Settings/Bus Settings SO", order = 1)]
     public class BusSettingsSO : ScriptableObject

@@ -64,7 +64,7 @@ namespace _Game._Dev.Scripts.Runtime.Features.Passenger.Controllers
             
             _gridSystemManager.MainGrid.ClearCell(model.GridPosition);
             await view.MoveAlongPath(path);
-            await _waitingAreaController.FinalizeMoveToSlot(view, model, reservedSlot.Value);
+            await _waitingAreaController.FinalizeMoveToSlot(passenger, reservedSlot.Value);//
             
             model.IsMoving = false;
             view.SetInteractionEnabled(true);

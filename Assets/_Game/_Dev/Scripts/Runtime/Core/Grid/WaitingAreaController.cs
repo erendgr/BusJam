@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Game._Dev.Scripts.Runtime.Core.BoardingSystem;
 using _Game._Dev.Scripts.Runtime.Core.BusSystem;
 using _Game._Dev.Scripts.Runtime.Core.Events;
-using _Game._Dev.Scripts.Runtime.Features.Passenger.Models;
-using _Game._Dev.Scripts.Runtime.Features.Passenger.Views;
+using _Game._Dev.Scripts.Runtime.Features.Passenger.Controllers;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -15,19 +15,21 @@ namespace _Game._Dev.Scripts.Runtime.Core.Grid
     {
         private readonly IGridSystemManager _gridSystemManager;
         private readonly IBusSystemManager _busSystemManager;
+        private readonly IBoardingSystem _boardingSystem;
         private readonly SignalBus _signalBus;
         private readonly HashSet<Vector2Int> _reservedSlots;
-        private readonly PassengerView[] _slots;
+        private readonly IPassengerController[] _slots;
         private bool _isBoardingLocked;
         
         public WaitingAreaController(IGridSystemManager gridSystemManager, GridConfigurationSO gridConfig,
-            IBusSystemManager busSystemManager, SignalBus signalBus)
+            IBusSystemManager busSystemManager, SignalBus signalBus, IBoardingSystem boardingSystem)
         {
             _gridSystemManager = gridSystemManager;
             _busSystemManager = busSystemManager;
             _signalBus = signalBus;
-            _slots = new PassengerView[gridConfig.WaitingGridSize.x];
+            _slots = new IPassengerController[gridConfig.WaitingGridSize.x];
             _reservedSlots = new HashSet<Vector2Int>();
+            _boardingSystem = boardingSystem;
         }
 
         public void Initialize()
@@ -51,7 +53,7 @@ namespace _Game._Dev.Scripts.Runtime.Core.Grid
             _isBoardingLocked = true;
         }
 
-        public bool IsPassengerInArea(PassengerView passenger)
+        public bool IsPassengerInArea(IPassengerController passenger)
         {
             return _slots.Contains(passenger);
         }
@@ -72,7 +74,7 @@ namespace _Game._Dev.Scripts.Runtime.Core.Grid
             return null;
         }
 
-        private void RemovePassengerFromArea(PassengerView passenger)
+        private void RemovePassengerFromArea(IPassengerController passenger)
         {
             int index = Array.IndexOf(_slots, passenger);
             if (index != -1)
@@ -83,19 +85,19 @@ namespace _Game._Dev.Scripts.Runtime.Core.Grid
             }
         }
 
-        public async UniTask FinalizeMoveToSlot(PassengerView view, PassengerModel model, Vector2Int reservedSlot)
+        public async UniTask FinalizeMoveToSlot(IPassengerController passenger, Vector2Int reservedSlot)
         {
             var waitingGrid = _gridSystemManager.WaitingAreaGrid;
             var targetPosition = waitingGrid.GetWorldPosition(reservedSlot, 0.5f);
 
-            await view.MoveToPoint(targetPosition);
+            await passenger.View.MoveToPoint(targetPosition);
 
             _reservedSlots.Remove(reservedSlot);
-            waitingGrid.PlaceObject(view.gameObject, reservedSlot);
-            _slots[reservedSlot.x] = view;
-            model.UpdateGridPosition(reservedSlot);
+            waitingGrid.PlaceObject(passenger.View.gameObject, reservedSlot);
+            _slots[reservedSlot.x] = passenger;
+            passenger.Model.UpdateGridPosition(reservedSlot);
 
-            _signalBus.Fire(new PassengerEnteredWaitingAreaSignal(view));
+            _signalBus.Fire(new  PassengerEnteredWaitingAreaSignal(passenger));
         }
 
         private async void OnBusArrived(BusArrivedSignal signal)
@@ -118,20 +120,35 @@ namespace _Game._Dev.Scripts.Runtime.Core.Grid
             }
         }
 
-        private async UniTask<bool> CheckAndBoardPassenger(PassengerView passenger)
+        // private async UniTask<bool> CheckAndBoardPassenger(PassengerView passenger)
+        // {
+        //     var currentBus = _busSystemManager.CurrentBus;
+        //     if (currentBus == null) return false;
+        //
+        //     if (currentBus.CanBoard(passenger.PassengerColor))
+        //     {
+        //         // RemovePassengerFromArea(passenger);
+        //         await currentBus.BoardPassengerAsync(passenger);
+        //         Debug.Log($"{passenger.PassengerColor.ToString()} board");
+        //         return true;
+        //     }
+        //
+        //     return false;
+        // }
+        
+        private async UniTask<bool> CheckAndBoardPassenger(IPassengerController passenger)
         {
             var currentBus = _busSystemManager.CurrentBus;
             if (currentBus == null) return false;
 
-            if (currentBus.CanBoard(passenger))
+            var boarded = await _boardingSystem.TryBoard(passenger, currentBus);
+
+            if (boarded)
             {
                 RemovePassengerFromArea(passenger);
-                await currentBus.BoardPassengerAsync(passenger);
-                Debug.Log($"{passenger.PassengerColor.ToString()} board");
-                return true;
             }
 
-            return false;
+            return boarded;
         }
 
         public int GetWaitingPassengersCount()
@@ -149,7 +166,7 @@ namespace _Game._Dev.Scripts.Runtime.Core.Grid
             _reservedSlots.Clear();
         }
 
-        public IReadOnlyList<PassengerView> GetWaitingPassengers()
+        public IReadOnlyList<IPassengerController> GetWaitingPassengers()
         {
             return _slots;
         }

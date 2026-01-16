@@ -1,33 +1,28 @@
-﻿using System.Collections.Generic;
-using _Game._Dev.Scripts.Runtime.Features.Passenger.Views;
-using _Game._Dev.Scripts.Runtime.Level.Models;
+﻿using _Game._Dev.Scripts.Runtime.Level.Models;
 
-namespace _Game._Dev.Scripts.Runtime.MVC.Bus.Models
+namespace _Game._Dev.Scripts.Runtime.Features.Bus.Models
 {
     public class BusModel
     {
         public Colors BusColor { get; }
         public int Capacity { get; }
-        public IReadOnlyList<PassengerView> Passengers => _passengers;
-        
-        private readonly List<PassengerView> _passengers;
 
+        private int _currentPassengerCount;
+        public int CurrentPassengerCount => _currentPassengerCount;
+        
         public BusModel(Colors busColor, int capacity)
         {
             BusColor = busColor;
             Capacity = capacity;
-            _passengers = new List<PassengerView>(capacity);
         }
 
-        public bool HasSpace() => _passengers.Count < Capacity;
+        public bool HasSpace() => _currentPassengerCount < Capacity;
         public bool IsColorMatch(Colors color) => color == BusColor;
         
-        public void AddPassenger(PassengerView passenger)
+        public void AddPassenger()
         {
-            if (HasSpace())
-            {
-                _passengers.Add(passenger);
-            }
+            if (!HasSpace()) return;
+            _currentPassengerCount++;
         }
     }
 }

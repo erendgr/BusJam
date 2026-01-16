@@ -115,7 +115,7 @@ namespace _Game._Dev.Scripts.Runtime.Misc
             }
 
             var busColor = currentBus.GetColor();
-            bool canAnyoneBoard = _waitingAreaController.GetWaitingPassengers().Any(c => c != null && c.PassengerColor == busColor);
+            bool canAnyoneBoard = _waitingAreaController.GetWaitingPassengers().Any(c => c != null && c.View.PassengerColor == busColor);
 
             if (!canAnyoneBoard)
             {

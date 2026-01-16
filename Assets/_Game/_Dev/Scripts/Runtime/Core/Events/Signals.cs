@@ -1,4 +1,5 @@
 ﻿using _Game._Dev.Scripts.Runtime.Features.Bus.Controllers;
+using _Game._Dev.Scripts.Runtime.Features.Passenger.Controllers;
 using _Game._Dev.Scripts.Runtime.Features.Passenger.Views;
 using _Game._Dev.Scripts.Runtime.Level.Models;
 
@@ -64,8 +65,8 @@ namespace _Game._Dev.Scripts.Runtime.Core.Events
 
     public struct PassengerEnteredWaitingAreaSignal
     {
-        public readonly PassengerView Passenger;
-        public PassengerEnteredWaitingAreaSignal(PassengerView passenger) => Passenger = passenger;
+        public readonly IPassengerController Passenger;
+        public PassengerEnteredWaitingAreaSignal(IPassengerController passenger) => Passenger = passenger;
     }
     
     public struct WaitingAreaChangedSignal { }

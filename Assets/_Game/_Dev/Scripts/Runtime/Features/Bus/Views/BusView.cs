@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using _Game._Dev.Scripts.Runtime.MVC.Bus.Models;
+using _Game._Dev.Scripts.Runtime.Features.Bus.Models;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-namespace _Game._Dev.Scripts.Runtime.MVC.Bus.Views
+namespace _Game._Dev.Scripts.Runtime.Features.Bus.Views
 {
     public class BusView : MonoBehaviour
     {
