@@ -1,13 +1,13 @@
-﻿using _Game._Dev.Scripts.Runtime.Core.Events;
+﻿using System;
+using _Game._Dev.Scripts.Runtime.Core.Events;
 using _Game._Dev.Scripts.Runtime.Core.Factories;
 using _Game._Dev.Scripts.Runtime.Core.Grid;
-using _Game._Dev.Scripts.Runtime.Level.Models;
 using UnityEngine;
 using Zenject;
 
-namespace _Game._Dev.Scripts.Runtime.Level.Controllers
+namespace _Game._Dev.Scripts.Runtime.Core.Level
 {
-    public class LevelController : ILevelController
+    public class LevelController : ILevelController, IDisposable
     {
         private readonly SignalBus _signalBus;
         private readonly IGridSystemManager _gridSystemManager;
@@ -22,6 +22,11 @@ namespace _Game._Dev.Scripts.Runtime.Level.Controllers
             _obstacleFactory = obstacleFactory;
             
             _signalBus.Subscribe<LevelLoadRequestedSignal>(OnLevelLoadRequested);
+        }
+        
+        public void Dispose()
+        {
+            _signalBus.TryUnsubscribe<LevelLoadRequestedSignal>(OnLevelLoadRequested);
         }
 
         private void OnLevelLoadRequested(LevelLoadRequestedSignal signal)

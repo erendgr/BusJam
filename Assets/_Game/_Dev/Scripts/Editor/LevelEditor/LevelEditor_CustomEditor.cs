@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using _Game._Dev.Scripts.Runtime.Core.Grid;
-using _Game._Dev.Scripts.Runtime.Level.Models;
+using _Game._Dev.Scripts.Runtime.Core.Level;
 using UnityEditor;
 using UnityEngine;
 

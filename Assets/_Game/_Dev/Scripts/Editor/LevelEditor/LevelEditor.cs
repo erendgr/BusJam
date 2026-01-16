@@ -2,7 +2,7 @@
 using System.Linq;
 using _Game._Dev.Scripts.Runtime.Core;
 using _Game._Dev.Scripts.Runtime.Core.Grid;
-using _Game._Dev.Scripts.Runtime.Level.Models;
+using _Game._Dev.Scripts.Runtime.Core.Level;
 using _Game._Dev.Scripts.Runtime.Misc;
 using UnityEngine;
 

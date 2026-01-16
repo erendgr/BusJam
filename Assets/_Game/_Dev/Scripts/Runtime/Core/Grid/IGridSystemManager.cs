@@ -1,4 +1,4 @@
-﻿using _Game._Dev.Scripts.Runtime.Level.Models;
+﻿using _Game._Dev.Scripts.Runtime.Core.Level;
 
 namespace _Game._Dev.Scripts.Runtime.Core.Grid
 {

@@ -1,6 +1,6 @@
 ﻿using System.Threading;
+using _Game._Dev.Scripts.Runtime.Core.Level;
 using _Game._Dev.Scripts.Runtime.Features.Bus.Controllers;
-using _Game._Dev.Scripts.Runtime.Level.Models;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 

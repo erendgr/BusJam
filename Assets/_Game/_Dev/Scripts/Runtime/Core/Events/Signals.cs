@@ -1,7 +1,7 @@
-﻿using _Game._Dev.Scripts.Runtime.Features.Bus.Controllers;
+﻿using _Game._Dev.Scripts.Runtime.Core.Level;
+using _Game._Dev.Scripts.Runtime.Features.Bus.Controllers;
 using _Game._Dev.Scripts.Runtime.Features.Passenger.Controllers;
 using _Game._Dev.Scripts.Runtime.Features.Passenger.Views;
-using _Game._Dev.Scripts.Runtime.Level.Models;
 
 namespace _Game._Dev.Scripts.Runtime.Core.Events
 {

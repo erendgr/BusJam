@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Game._Dev.Scripts.Runtime.Level.Models
+namespace _Game._Dev.Scripts.Runtime.Core.Level
 {
     public enum Colors
     {

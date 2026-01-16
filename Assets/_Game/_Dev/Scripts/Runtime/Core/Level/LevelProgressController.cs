@@ -1,11 +1,10 @@
 ﻿using System;
 using _Game._Dev.Scripts.Runtime.Core.Events;
 using _Game._Dev.Scripts.Runtime.Core.Movement;
-using _Game._Dev.Scripts.Runtime.Level.Models;
 using UnityEngine;
 using Zenject;
 
-namespace _Game._Dev.Scripts.Runtime.Level.Controllers
+namespace _Game._Dev.Scripts.Runtime.Core.Level
 {
     public class LevelProgressController : IInitializable, IDisposable
     {

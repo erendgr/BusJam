@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using _Game._Dev.Scripts.Runtime.Core.Events;
+using _Game._Dev.Scripts.Runtime.Core.Level;
 using _Game._Dev.Scripts.Runtime.Core.Movement;
 using _Game._Dev.Scripts.Runtime.Features.Passenger.Models;
-using _Game._Dev.Scripts.Runtime.Level.Models;
 using _Game._Dev.Scripts.Runtime.Misc;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;

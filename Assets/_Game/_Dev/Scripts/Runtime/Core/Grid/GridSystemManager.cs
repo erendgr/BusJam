@@ -1,6 +1,6 @@
 ﻿using System;
 using _Game._Dev.Scripts.Runtime.Core.Events;
-using _Game._Dev.Scripts.Runtime.Level.Models;
+using _Game._Dev.Scripts.Runtime.Core.Level;
 using UnityEngine;
 using Zenject;
 

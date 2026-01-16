@@ -1,7 +1,7 @@
 ﻿using _Game._Dev.Scripts.Runtime.Core.Events;
 using _Game._Dev.Scripts.Runtime.Core.Grid;
+using _Game._Dev.Scripts.Runtime.Core.Level;
 using _Game._Dev.Scripts.Runtime.Features.Bus.Models;
-using _Game._Dev.Scripts.Runtime.Level.Models;
 using UnityEngine;
 using Zenject;
 

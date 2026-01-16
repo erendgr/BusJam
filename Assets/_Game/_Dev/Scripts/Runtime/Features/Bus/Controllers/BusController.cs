@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using _Game._Dev.Scripts.Runtime.Core.Events;
+using _Game._Dev.Scripts.Runtime.Core.Level;
 using _Game._Dev.Scripts.Runtime.Features.Bus.Models;
 using _Game._Dev.Scripts.Runtime.Features.Bus.Views;
-using _Game._Dev.Scripts.Runtime.Level.Models;
 using _Game._Dev.Scripts.Runtime.Misc;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
