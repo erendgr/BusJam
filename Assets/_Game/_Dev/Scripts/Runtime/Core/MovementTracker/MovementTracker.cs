@@ -1,6 +1,7 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using _Game._Dev.Scripts.Runtime.Core.Movement;
+using Cysharp.Threading.Tasks;
 
-namespace _Game._Dev.Scripts.Runtime.Core.Movement
+namespace _Game._Dev.Scripts.Runtime.Core.MovementTracker
 {
     public class MovementTracker : IMovementTracker
     {

@@ -14,10 +14,7 @@ namespace _Game._Dev.Scripts.Runtime.Core.Factories
         private readonly GameObject _passengerPrefab;
         private readonly IPassengerSystemManager _passengerSystemManager;
 
-        public PassengerFactory(
-            DiContainer container,
-            GameObject passengerPrefab,
-            IPassengerSystemManager passengerSystemManager)
+        public PassengerFactory(DiContainer container, GameObject passengerPrefab, IPassengerSystemManager passengerSystemManager)
         {
             _container = container;
             _passengerPrefab = passengerPrefab;
