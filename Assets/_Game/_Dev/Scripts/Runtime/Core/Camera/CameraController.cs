@@ -5,7 +5,7 @@ using _Game._Dev.Scripts.Runtime.Core.Level;
 using UnityEngine;
 using Zenject;
 
-namespace _Game._Dev.Scripts.Runtime.Core
+namespace _Game._Dev.Scripts.Runtime.Core.Camera
 {
     public class CameraController : IInitializable, IDisposable
     {
@@ -13,10 +13,10 @@ namespace _Game._Dev.Scripts.Runtime.Core
         private readonly float _padding = 1.15f; // %15 padding 
 
         private readonly SignalBus _signalBus;
-        private readonly Camera _camera;
+        private readonly UnityEngine.Camera _camera;
         private readonly GridConfigurationSO _gridConfig;
 
-        public CameraController(SignalBus signalBus, Camera camera, GridConfigurationSO gridConfig)
+        public CameraController(SignalBus signalBus, UnityEngine.Camera camera, GridConfigurationSO gridConfig)
         {
             _signalBus = signalBus;
             _camera = camera;

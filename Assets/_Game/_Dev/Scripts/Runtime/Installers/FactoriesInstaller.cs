@@ -1,4 +1,5 @@
 ﻿using _Game._Dev.Scripts.Runtime.Core;
+using _Game._Dev.Scripts.Runtime.Core.Configurations;
 using _Game._Dev.Scripts.Runtime.Core.Factories;
 using UnityEngine;
 using Zenject;

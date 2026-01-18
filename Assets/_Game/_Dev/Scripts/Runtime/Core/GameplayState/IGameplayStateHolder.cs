@@ -1,4 +1,4 @@
-﻿namespace _Game._Dev.Scripts.Runtime.Misc
+﻿namespace _Game._Dev.Scripts.Runtime.Core.GameplayState
 {
     public interface IGameplayStateHolder
     {

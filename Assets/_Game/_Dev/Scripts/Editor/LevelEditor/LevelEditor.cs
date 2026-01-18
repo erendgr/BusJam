@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using _Game._Dev.Scripts.Runtime.Core;
+using _Game._Dev.Scripts.Runtime.Core.Configurations;
 using _Game._Dev.Scripts.Runtime.Core.Grid;
 using _Game._Dev.Scripts.Runtime.Core.Level;
-using _Game._Dev.Scripts.Runtime.Misc;
+using _Game._Dev.Scripts.Runtime.Utilities;
 using UnityEngine;
 
 namespace _Game._Dev.Scripts.Editor.LevelEditor

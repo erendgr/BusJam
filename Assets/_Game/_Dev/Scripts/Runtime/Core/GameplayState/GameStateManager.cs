@@ -4,11 +4,12 @@ using _Game._Dev.Scripts.Runtime.Core.BusSystem;
 using _Game._Dev.Scripts.Runtime.Core.Events;
 using _Game._Dev.Scripts.Runtime.Core.Grid;
 using _Game._Dev.Scripts.Runtime.Core.Movement;
+using _Game._Dev.Scripts.Runtime.Core.Timer;
 using _Game._Dev.Scripts.Runtime.Features.Passenger.Views;
 using UnityEngine;
 using Zenject;
 
-namespace _Game._Dev.Scripts.Runtime.Misc
+namespace _Game._Dev.Scripts.Runtime.Core.GameplayState
 {
     public class GameStateManager : IInitializable, IDisposable
     {
@@ -18,14 +19,14 @@ namespace _Game._Dev.Scripts.Runtime.Misc
         private readonly IWaitingAreaController _waitingAreaController;
         private readonly IMovementTracker _movementTracker;
         private readonly IGameplayStateHolder _gameplayStateHolder;
-        private readonly ITimerController _timerController;
+        private readonly IGameplayTimer _gameplayTimer;
         
         private bool _isLevelWon;
         
         public GameStateManager(SignalBus signalBus, IGridSystemManager gridSystemManager, 
             IWaitingAreaController waitingAreaController, IMovementTracker movementTracker, 
             IBusSystemManager busSystemManager, IGameplayStateHolder gameplayStateHolder, 
-            ITimerController timerController)
+            IGameplayTimer gameplayTimer)
         {
             _signalBus = signalBus;
             _gridSystemManager = gridSystemManager;
@@ -33,7 +34,7 @@ namespace _Game._Dev.Scripts.Runtime.Misc
             _movementTracker = movementTracker;
             _busSystemManager = busSystemManager;
             _gameplayStateHolder = gameplayStateHolder;
-            _timerController = timerController;
+            _gameplayTimer = gameplayTimer;
         }
 
         public void Initialize()
@@ -128,7 +129,7 @@ namespace _Game._Dev.Scripts.Runtime.Misc
             if (!_gameplayStateHolder.IsGameplayActive) return;
             
             _gameplayStateHolder.Pause();
-            _timerController.Stop();
+            _gameplayTimer.Stop();
             
             _signalBus.Fire<GameOverSignal>();
             Debug.Log(reason);
@@ -139,7 +140,7 @@ namespace _Game._Dev.Scripts.Runtime.Misc
             if (!_gameplayStateHolder.IsGameplayActive) return;
 
             _gameplayStateHolder.Pause();
-            _timerController.Stop();
+            _gameplayTimer.Stop();
             _isLevelWon = true;
             _signalBus.Fire<LevelCompletedSignal>();
         }

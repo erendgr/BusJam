@@ -1,7 +1,7 @@
 ﻿using _Game._Dev.Scripts.Runtime.Core.Level;
 using UnityEngine;
 
-namespace _Game._Dev.Scripts.Runtime.Misc
+namespace _Game._Dev.Scripts.Runtime.Utilities
 {
     public static class ColorMapper
     {

@@ -16,20 +16,20 @@ namespace _Game._Dev.Scripts.Runtime.UI.Views
         {
             _signalBus = signalBus;
         }
-
-        private void Start()
+        
+        private void OnEnable()
         {
             startButton.onClick.AddListener(OnStartButtonPressed);
         }
 
+        private void OnDisable()
+        {
+            startButton.onClick.RemoveListener(OnStartButtonPressed);
+        }
+        
         private void OnStartButtonPressed()
         {
             _signalBus.Fire<StartGameRequestedSignal>();
-        }
-        
-        private void OnDestroy()
-        {
-            startButton.onClick.RemoveListener(OnStartButtonPressed);
         }
     }
 }

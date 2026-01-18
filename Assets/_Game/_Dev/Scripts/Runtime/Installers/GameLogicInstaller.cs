@@ -1,14 +1,15 @@
-﻿using _Game._Dev.Scripts.Runtime.Core;
-using _Game._Dev.Scripts.Runtime.Core.BoardingSystem;
+﻿using _Game._Dev.Scripts.Runtime.Core.BoardingSystem;
 using _Game._Dev.Scripts.Runtime.Core.BusSystem;
+using _Game._Dev.Scripts.Runtime.Core.Camera;
+using _Game._Dev.Scripts.Runtime.Core.GameplayState;
 using _Game._Dev.Scripts.Runtime.Core.Grid;
 using _Game._Dev.Scripts.Runtime.Core.Level;
-using _Game._Dev.Scripts.Runtime.Core.Movement;
 using _Game._Dev.Scripts.Runtime.Core.MovementTracker;
 using _Game._Dev.Scripts.Runtime.Core.PassengerSystem;
 using _Game._Dev.Scripts.Runtime.Core.Pathfinding;
+using _Game._Dev.Scripts.Runtime.Core.Timer;
 using _Game._Dev.Scripts.Runtime.Features.Passenger.Controllers;
-using _Game._Dev.Scripts.Runtime.Misc;
+using _Game._Dev.Scripts.Runtime.Utilities;
 using UnityEngine;
 using Zenject;
 
@@ -32,7 +33,7 @@ namespace _Game._Dev.Scripts.Runtime.Installers
             Container.BindInterfacesAndSelfTo<GameStateManager>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<LevelProgressController>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<PassengerMovementController>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<TimerController>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameplayTimer>().AsSingle();
             Container.BindInterfacesAndSelfTo<MovementTracker>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameplayStateHolder>().AsSingle();
         }

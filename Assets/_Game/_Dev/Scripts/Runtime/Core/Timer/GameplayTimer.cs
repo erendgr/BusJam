@@ -1,11 +1,13 @@
 ﻿using System;
 using _Game._Dev.Scripts.Runtime.Core.Events;
+using _Game._Dev.Scripts.Runtime.Core.GameplayState;
+using _Game._Dev.Scripts.Runtime.Utilities;
 using UnityEngine;
 using Zenject;
 
-namespace _Game._Dev.Scripts.Runtime.Misc
+namespace _Game._Dev.Scripts.Runtime.Core.Timer
 {
-    public class TimerController : ITickable,ITimerController, IInitializable, IDisposable
+    public class GameplayTimer : ITickable,IGameplayTimer, IInitializable, IDisposable
     {
         private readonly SignalBus _signalBus;
         private readonly IGameplayStateHolder _gameplayStateHolder;
@@ -16,7 +18,7 @@ namespace _Game._Dev.Scripts.Runtime.Misc
         private float _visualUpdateTimer;
         private const float VISUAL_UPDATE_INTERVAL = 1f;
 
-        public TimerController(SignalBus signalBus, IGameplayStateHolder gameplayStateHolder)
+        public GameplayTimer(SignalBus signalBus, IGameplayStateHolder gameplayStateHolder)
         {
             _signalBus = signalBus;
             _gameplayStateHolder = gameplayStateHolder;

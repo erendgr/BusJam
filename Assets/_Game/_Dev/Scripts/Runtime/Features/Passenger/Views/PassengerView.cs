@@ -3,7 +3,7 @@ using _Game._Dev.Scripts.Runtime.Core.Events;
 using _Game._Dev.Scripts.Runtime.Core.Level;
 using _Game._Dev.Scripts.Runtime.Core.Movement;
 using _Game._Dev.Scripts.Runtime.Features.Passenger.Models;
-using _Game._Dev.Scripts.Runtime.Misc;
+using _Game._Dev.Scripts.Runtime.Utilities;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
